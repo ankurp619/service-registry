@@ -9,9 +9,11 @@ pipeline {
                     checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-pat', url: 'https://github.com/ankurp619/service-registry.git']])
               }
         }
-        stage('Build') {
+        stage('Build Maven') {
             steps {
-                sh "mvn clean install"
+                withMaven{
+                    sh 'mvn clean install'
+                }
             }
         }
         stage('Docker') {
